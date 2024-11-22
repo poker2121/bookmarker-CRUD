@@ -75,12 +75,15 @@
       </table>
     </main>
     <!--^ Dialog Element  -->
-    <dialog id="alertDialog">
-      <div>
-        <p>Name and URL cannot be empty. Please fill out both fields.</p>
-        <button id="closeDialog">Close</button>
+    <dialog id="alertDialog" class="alert-dialog">
+      <div class="dialog-content">
+        <i class="dialog-icon fa-solid fa-triangle-exclamation"></i>
+        <p class="dialog-message"></p>
+        <button id="closeDialog" class="dialog-button">Close</button>
       </div>
     </dialog>
+    
+    
     <!--^ Js Files  -->
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/index.js"></script>

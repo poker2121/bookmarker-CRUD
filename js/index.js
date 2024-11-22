@@ -33,25 +33,41 @@ function addbookmark() {
   var name = bookmarkNameInput.value.trim();
   var url = bookmarkUrlInput.value.trim();
 
-
+  // if it empty
   if (name === "" || url === "") {
- 
+    alertDialog.querySelector(".dialog-message").textContent = "Name or URL cannot be empty!";
     alertDialog.showModal();
-    return; 
+    return;
   }
 
+  // if it exist
+  var isDuplicateName = bookmarkList.some((bookmark) => bookmark.name.toLowerCase() === name.toLowerCase());
+  if (isDuplicateName) {
+    alertDialog.querySelector(".dialog-message").textContent = "Bookmark name already exists!";
+    alertDialog.showModal();
+    return;
+  }
 
+  // validation
+  var urlPattern = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/[^\s]*)?$/;
+  if (!urlPattern.test(url)) {
+    alertDialog.querySelector(".dialog-message").textContent = "Please enter a valid URL!";
+    alertDialog.showModal();
+    return;
+  }
+
+  // if all true
   var bookmark = {
     name: name,
     url: url,
   };
-
 
   bookmarkList.push(bookmark);
   localStorage.setItem("bookmarkList", JSON.stringify(bookmarkList));
   clearInput();
   displayBookmark();
 }
+
 
 //?=======================================================================
 // clear data
