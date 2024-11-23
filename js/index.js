@@ -28,35 +28,56 @@ closeDialogBtn.addEventListener("click", () => {
 });
 //?======================================================================
 // Add bookmark part
-
 function addbookmark() {
   var name = bookmarkNameInput.value.trim();
   var url = bookmarkUrlInput.value.trim();
 
-  // if it empty
-  if (name === "" || url === "") {
+  // Reset validation classes
+  bookmarkNameInput.classList.remove("is-valid", "is-invalid");
+  bookmarkUrlInput.classList.remove("is-valid", "is-invalid");
+
+  var isValid = true;
+
+  // Check if name or URL is empty
+  if (name === "") {
+    bookmarkNameInput.classList.add("is-invalid");
+    isValid = false;
+  } else {
+    bookmarkNameInput.classList.add("is-valid");
+  }
+
+  if (url === "") {
+    bookmarkUrlInput.classList.add("is-invalid");
+    isValid = false;
+  } else {
+    bookmarkUrlInput.classList.add("is-valid");
+  }
+
+  if (!isValid) {
     alertDialog.querySelector(".dialog-message").textContent = "Name or URL cannot be empty!";
     alertDialog.showModal();
     return;
   }
 
-  // if it exist
+  // Check if name already exists
   var isDuplicateName = bookmarkList.some((bookmark) => bookmark.name.toLowerCase() === name.toLowerCase());
   if (isDuplicateName) {
+    bookmarkNameInput.classList.add("is-invalid");
     alertDialog.querySelector(".dialog-message").textContent = "Bookmark name already exists!";
     alertDialog.showModal();
     return;
   }
 
-  // validation
+  // Validate URL format
   var urlPattern = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/[^\s]*)?$/;
   if (!urlPattern.test(url)) {
+    bookmarkUrlInput.classList.add("is-invalid");
     alertDialog.querySelector(".dialog-message").textContent = "Please enter a valid URL!";
     alertDialog.showModal();
     return;
   }
 
-  // if all true
+  // Add bookmark if all validations pass
   var bookmark = {
     name: name,
     url: url,
@@ -67,8 +88,6 @@ function addbookmark() {
   clearInput();
   displayBookmark();
 }
-
-
 //?=======================================================================
 // clear data
 function clearInput() {
