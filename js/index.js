@@ -29,33 +29,18 @@ closeDialogBtn.addEventListener("click", () => {
 //?======================================================================
 // Add bookmark part
 function addbookmark() {
+
+  validateInput("bookmarkName");
+  validateInput("bookmarkURL");
+
   var name = bookmarkNameInput.value.trim();
   var url = bookmarkUrlInput.value.trim();
 
-  // Reset validation classes
-  bookmarkNameInput.classList.remove("is-valid", "is-invalid");
-  bookmarkUrlInput.classList.remove("is-valid", "is-invalid");
-
-  var isValid = true;
-
-  // Check if name or URL is empty
-  if (name === "") {
-    bookmarkNameInput.classList.add("is-invalid");
-    isValid = false;
-  } else {
-    bookmarkNameInput.classList.add("is-valid");
-  }
-
-  if (url === "") {
-    bookmarkUrlInput.classList.add("is-invalid");
-    isValid = false;
-  } else {
-    bookmarkUrlInput.classList.add("is-valid");
-  }
-
-  if (!isValid) {
-    alertDialog.querySelector(".dialog-message").textContent = "Name or URL cannot be empty!";
-    alertDialog.showModal();
+  if (!bookmarkNameInput.classList.contains("is-valid") || 
+      !bookmarkUrlInput.classList.contains("is-valid")) {
+    alertDialog.querySelector(".dialog-message").textContent = 
+      "Please correct the invalid inputs, ensure the site name is not empty and unique, and the URL follows the correct format.";
+    showDialog();
     return;
   }
 
@@ -64,20 +49,10 @@ function addbookmark() {
   if (isDuplicateName) {
     bookmarkNameInput.classList.add("is-invalid");
     alertDialog.querySelector(".dialog-message").textContent = "Bookmark name already exists!";
-    alertDialog.showModal();
+    showDialog();
     return;
   }
-
-  // Validate URL format
-  var urlPattern = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/[^\s]*)?$/;
-  if (!urlPattern.test(url)) {
-    bookmarkUrlInput.classList.add("is-invalid");
-    alertDialog.querySelector(".dialog-message").textContent = "Please enter a valid URL!";
-    alertDialog.showModal();
-    return;
-  }
-
-  // Add bookmark if all validations pass
+  // Add bookmark if all validations done
   var bookmark = {
     name: name,
     url: url,
@@ -123,5 +98,28 @@ function deleteBookmark(deleteIndex) {
   localStorage.setItem("bookmarkList", JSON.stringify(bookmarkList));
   displayBookmark();
 }
+//?=======================================================================
+// validation Function
+function validateInput(inputId) {
+  var inputElement = document.getElementById(inputId);
+  var value = inputElement.value.trim();
 
+  inputElement.classList.remove("is-valid", "is-invalid");
 
+  if (inputId === "bookmarkName") {
+    if (value === "") {
+      inputElement.classList.add("is-invalid");
+    } else {
+      inputElement.classList.add("is-valid");
+    }
+  }
+
+  if (inputId === "bookmarkURL") {
+    var urlPattern = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/[^\s]*)?$/;
+    if (value === "" || !urlPattern.test(value)) {
+      inputElement.classList.add("is-invalid");
+    } else {
+      inputElement.classList.add("is-valid");
+    }
+  }
+}

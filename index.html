@@ -10,7 +10,10 @@
     <!--(Pacifico & Righteous Fonts ) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Righteous&display=swap" rel="stylesheet"/>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&family=Righteous&display=swap"
+      rel="stylesheet"
+    />
     <title>Bookmarker</title>
     <!-- icon -->
     <link rel="icon" href="images/bookmark.png" />
@@ -40,6 +43,7 @@
             placeholder="Bookmark Name"
             class="form-control"
             id="bookmarkName"
+            oninput="validateInput('bookmarkName')"
           />
         </div>
         <div class="site-url w-100 d-flex flex-column justify-content-center">
@@ -51,6 +55,7 @@
             placeholder="Website URL"
             class="form-control"
             id="bookmarkURL"
+            oninput="validateInput('bookmarkURL')"
           />
         </div>
         <button
@@ -82,8 +87,7 @@
         <button id="closeDialog" class="dialog-button">Close</button>
       </div>
     </dialog>
-    
-    
+
     <!--^ Js Files  -->
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/index.js"></script>
