@@ -107,7 +107,7 @@ function validateInput(inputId) {
   inputElement.classList.remove("is-valid", "is-invalid");
 
   if (inputId === "bookmarkName") {
-    if (value === "" || value.length > 15 ) {
+    if (value === "" || value.length > 15) {
       inputElement.classList.add("is-invalid");
     } else {
       inputElement.classList.add("is-valid");
@@ -115,8 +115,15 @@ function validateInput(inputId) {
   }
 
   if (inputId === "bookmarkURL") {
+   
+    if (!value.startsWith("http://") && !value.startsWith("https://")) {
+      value = "http://" + value;
+      inputElement.value = value; 
+    }
+
+
     var urlPattern = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/[^\s]*)?$/;
-    if (value === "" || !urlPattern.test(value)) {
+    if (!urlPattern.test(value)) {
       inputElement.classList.add("is-invalid");
     } else {
       inputElement.classList.add("is-valid");
