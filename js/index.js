@@ -107,7 +107,7 @@ function validateInput(inputId) {
   inputElement.classList.remove("is-valid", "is-invalid");
 
   if (inputId === "bookmarkName") {
-    if (value === "") {
+    if (value === "" || value.length > 15 ) {
       inputElement.classList.add("is-invalid");
     } else {
       inputElement.classList.add("is-valid");
