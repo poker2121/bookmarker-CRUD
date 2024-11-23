@@ -29,7 +29,6 @@ closeDialogBtn.addEventListener("click", () => {
 //?======================================================================
 // Add bookmark part
 function addbookmark() {
-
   validateInput("bookmarkName");
   validateInput("bookmarkURL");
 
@@ -52,7 +51,13 @@ function addbookmark() {
     showDialog();
     return;
   }
-  // Add bookmark if all validations done
+
+ 
+  if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    url = "http://" + url;
+  }
+
+  // Add bookmark to the list
   var bookmark = {
     name: name,
     url: url,
@@ -115,14 +120,8 @@ function validateInput(inputId) {
   }
 
   if (inputId === "bookmarkURL") {
-   
-    if (!value.startsWith("http://") && !value.startsWith("https://")) {
-      value = "http://" + value;
-      inputElement.value = value; 
-    }
-
-
     var urlPattern = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/[^\s]*)?$/;
+
     if (!urlPattern.test(value)) {
       inputElement.classList.add("is-invalid");
     } else {
